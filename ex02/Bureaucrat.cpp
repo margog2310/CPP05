@@ -6,12 +6,12 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 23:02:01 by mganchev          #+#    #+#             */
-/*   Updated: 2025/04/14 01:50:15 by root             ###   ########.fr       */
+/*   Updated: 2025/04/14 02:29:18 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Bureaucrat.hpp"
-#include "Form.hpp"
+#include "AForm.hpp"
 
 GradeTooHighException::GradeTooHighException(const std::string& message): _message(message) {}
 
@@ -98,7 +98,7 @@ void    Bureaucrat::decreaseGrade()
     std::cout << _name << "'s grade has decreased. Current grade: " << _grade << std::endl;
 }
 
-void    Bureaucrat::signForm(Form& form)
+void    Bureaucrat::signForm(AForm& form)
 {
     if (form.isSigned())
     {
@@ -109,4 +109,15 @@ void    Bureaucrat::signForm(Form& form)
         std::cout << *this << " signed " << form << std::endl;
     else
         std::cout << *this << " couldn't sign " << form << " because bureaucrat grade is too low." << std::endl;
+}
+
+void    Bureaucrat::executeForm(const AForm& form)
+{
+    if (form.execute(*this))
+    {
+        form.beExecuted(*this);
+        std::cout << *this << " executed " << form << std::endl;
+    }
+    else
+        std::cout << *this << " couldn't sign " << form << std::endl;
 }

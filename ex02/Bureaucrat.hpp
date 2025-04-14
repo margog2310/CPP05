@@ -6,7 +6,7 @@
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 22:00:54 by mganchev          #+#    #+#             */
-/*   Updated: 2025/04/14 01:50:56 by root             ###   ########.fr       */
+/*   Updated: 2025/04/14 02:22:51 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include <iostream>
 #include <stdexcept>
 
-class Form;
+class AForm;
 
 class GradeTooLowException: public std::exception
 {
@@ -58,7 +58,8 @@ class Bureaucrat
         friend std::ostream& operator<<(std::ostream& out, const Bureaucrat& bureaucrat);
         void    increaseGrade();
         void    decreaseGrade();
-        void    signForm(Form& form);
+        void    signForm(AForm& form);
+        void    executeForm(const AForm& form);
 } ;
 
 

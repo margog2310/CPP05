@@ -10,12 +10,10 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Form.hpp"
+#include "AForm.hpp"
 #include "Bureaucrat.hpp"
 
-Form::Form(): _name("Unnamed"), _signed(false), _to_sign(0), _to_execute(0), e_high("Form grade too high."), e_low("Form grade too low") {}
-
-Form::Form(std::string name, unsigned int to_sign, unsigned int to_execute): _name(name), _signed(false), _to_sign(to_sign), _to_execute(to_execute), e_high("Form grade too high."), e_low("Form grade too low.")
+AForm::AForm(std::string name, unsigned int to_sign, unsigned int to_execute): _name(name), _signed(false), _to_sign(to_sign), _to_execute(to_execute), e_high("Form grade too high."), e_low("Form grade too low.")
 {
     if (to_sign < 1 || to_execute < 1)
         throw e_high;
@@ -23,23 +21,16 @@ Form::Form(std::string name, unsigned int to_sign, unsigned int to_execute): _na
         throw e_low;
 }
 
-Form::Form(const Form& copy): _name(copy._name), _signed(copy._signed), _to_sign(copy._to_sign), _to_execute(copy._to_execute), e_high(copy.e_high), e_low(copy.e_low) {}
+AForm::AForm(const AForm& copy): _name(copy._name), _signed(copy._signed), _to_sign(copy._to_sign), _to_execute(copy._to_execute), e_high(copy.e_high), e_low(copy.e_low) {}
 
-Form& Form::operator=(const Form& copy)
+AForm& AForm::operator=(const AForm& copy)
 {
     if (this != &copy)
-    {
-        this->~Form();
-        new (this) Form(copy);
-        if (_to_sign < 1 || _to_execute < 1)
-            throw e_high;
-        else if (_to_sign > 150 || _to_execute > 150)
-            throw e_low;
-    }
+        this->_signed = copy._signed;
     return *this;
 }
 
-std::ostream& operator<<(std::ostream& out, const Form& form)
+std::ostream& operator<<(std::ostream& out, const AForm& form)
 {
     out << "Form " << form.getName()
         << " (To Sign: " << form.getSignGrade()
@@ -48,29 +39,29 @@ std::ostream& operator<<(std::ostream& out, const Form& form)
     return out;
 }
 
-Form::~Form() {}
+AForm::~AForm() {}
 
-const std::string Form::getName() const
+const std::string AForm::getName() const
 {
     return this->_name;
 }
 
-bool Form::isSigned() const
+bool AForm::isSigned() const
 {
     return this->_signed;
 }
 
-unsigned int Form::getSignGrade() const
+unsigned int AForm::getSignGrade() const
 {
     return this->_to_sign;
 }
 
-unsigned int Form::getExecuteGrade() const
+unsigned int AForm::getExecuteGrade() const
 {
     return this->_to_execute;
 }
 
-bool Form::beSigned(const Bureaucrat& bureaucrat)
+bool AForm::beSigned(const Bureaucrat& bureaucrat)
 {  
     if (_signed)
     {
@@ -82,4 +73,13 @@ bool Form::beSigned(const Bureaucrat& bureaucrat)
     else
         _signed = true;
     return _signed;
+}
+
+bool    AForm::execute(const Bureaucrat& executor) const
+{
+    if (!_signed)
+        std::cout << *this << " hasn't been signed. Please sign before executing." << std::endl;
+    if (_signed && executor.getGrade() < _to_execute)
+        return true;
+    return false;
 }

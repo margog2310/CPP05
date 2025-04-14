@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   AForm.hpp                                           :+:      :+:    :+:   */
+/*   AAForm.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,13 +10,13 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FORM_HPP
-#define FORM_HPP
+#ifndef AFORM_HPP
+#define AFORM_HPP
 
 #include <iostream>
 #include "Bureaucrat.hpp"
 
-class Form
+class AForm
 {
     private:
         const std::string _name;
@@ -25,19 +25,20 @@ class Form
         const unsigned int _to_execute;
 
     public:
-        Form();
-        Form(std::string name, unsigned int to_sign, unsigned int to_execute);
-        Form(const AForm& copy);
-        Form& operator=(const Form& copy);
-        ~Form();
+        AForm(std::string name, unsigned int to_sign, unsigned int to_execute);
+        AForm(const AForm& copy);
+        AForm& operator=(const AForm& copy);
+        virtual ~AForm();
         GradeTooHighException e_high;
         GradeTooHighException e_low;
         const std::string getName() const;
-        friend std::ostream& operator<<(std::ostream& out, const Form& form);
+        friend std::ostream& operator<<(std::ostream& out, const AForm& AForm);
         bool isSigned() const;
         unsigned int getSignGrade() const;
         unsigned int getExecuteGrade() const;
         bool    beSigned(const Bureaucrat& bureaucrat);
+        bool    execute(const Bureaucrat& executor) const;
+        virtual void beExecuted(const Bureaucrat& executor) const = 0;
 } ;
 
 #endif
