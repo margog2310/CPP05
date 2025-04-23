@@ -6,7 +6,7 @@
 /*   By: mganchev <mganchev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 21:38:17 by mganchev          #+#    #+#             */
-/*   Updated: 2025/04/23 21:55:22 by mganchev         ###   ########.fr       */
+/*   Updated: 2025/04/23 22:34:37 by mganchev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,9 @@ const char* ShrubberyCreationForm::FileErrorException::what() const throw()
     return "Error while opening file.";
 }
 
-void    ShrubberyCreationForm::beExecuted(const Bureaucrat& executor) const
+void    ShrubberyCreationForm::beExecuted() const
 {
-    std::ofstream file(_target + "_shrubbery");
+    std::ofstream file((_target + "_shrubbery").c_str());
     
     if (file)
     {

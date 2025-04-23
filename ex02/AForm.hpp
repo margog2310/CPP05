@@ -23,6 +23,7 @@ class AForm
         bool _signed;
         const unsigned int _to_sign;
         const unsigned int _to_execute;
+        virtual void beExecuted() const = 0;
 
     public:
         AForm(std::string name, unsigned int to_sign, unsigned int to_execute);
@@ -53,7 +54,6 @@ class AForm
         void    setSigned(bool isSigned);
         bool    beSigned(const Bureaucrat& bureaucrat);
         void    execute(const Bureaucrat& executor) const;
-        virtual void beExecuted(const Bureaucrat& executor) const = 0;
 } ;
 
 #endif

@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.cpp                                           :+:      :+:    :+:   */
+/*   main.cpp                                           :+:      :+:    :+:    :+: */
 /*                                                    +:+ +:+         +:+     */
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -11,109 +11,92 @@
 /* ************************************************************************** */
 
 #include "Bureaucrat.hpp"
-#include "Form.hpp"
+#include "ShrubberyCreationForm.hpp"
+#include "RobotomyRequestForm.hpp"
+#include "PresidentialPardonForm.hpp"
+#include <iostream>
 
 int main()
 {
     try
     {
-        Bureaucrat validBureaucrat("Alice", 50);
-        std::cout << validBureaucrat << std::endl;
+        // Test ShrubberyCreationForm
+        ShrubberyCreationForm shrubberyForm("Garden");
+        Bureaucrat lowRank("Frank", 150); // Too low to sign or execute
+        Bureaucrat midRank("Alice", 140); // Can sign but not execute
+        Bureaucrat highRank("Bob", 1);    // Can sign and execute
 
-        validBureaucrat.increaseGrade();
-        validBureaucrat.decreaseGrade();
+        std::cout << shrubberyForm << std::endl;
 
-        Bureaucrat highBureaucrat("Bob", 0);
-    }
-    catch (const GradeTooHighException& e)
-    {
-        std::cerr << e.what() << std::endl;
-    }
-    catch (const GradeTooLowException& e)
-    {
-        std::cerr << e.what() << std::endl;
-    }
+        // Attempt to sign and execute with low-rank bureaucrat
+        lowRank.signForm(shrubberyForm);
+        lowRank.executeForm(shrubberyForm);
 
-    try
-    {
-        Bureaucrat lowBureaucrat("Charlie", 151);
-    }
-    catch (const GradeTooHighException& e)
-    {
-        std::cerr << e.what() << std::endl;
-    }
-    catch (const GradeTooLowException& e)
-    {
-        std::cerr << e.what() << std::endl;
-    }
+        // Sign with mid-rank bureaucrat
+        midRank.signForm(shrubberyForm);
+        shrubberyForm.beSigned(midRank);
 
-    try
-    {
-        Bureaucrat original("Diana", 75);
-        Bureaucrat copy(original);
-        std::cout << copy << std::endl;
-
-        Bureaucrat assigned = original;
-        std::cout << assigned << std::endl;
+        // Execute with high-rank bureaucrat
+        highRank.executeForm(shrubberyForm);
     }
     catch (const std::exception& e)
     {
         std::cerr << e.what() << std::endl;
     }
 
-    // Testing Form functionality
     try
     {
-        Form validForm("A", 50, 100);
-        std::cout << validForm << std::endl;
-        Form newForm("B", 50, 2);
-        std::cout << newForm << std::endl;
-        
-        Bureaucrat signer("Eve", 40);
-        signer.signForm(validForm);
-        validForm.beSigned(signer);
-        std::cout << validForm << std::endl;
+        // Test RobotomyRequestForm
+        RobotomyRequestForm robotomyForm("Target A");
+        Bureaucrat signer("Eve", 72); // Can sign but not execute
+        Bureaucrat executor("Charlie", 45); // Can execute
 
-        Bureaucrat lowRank("Frank", 51);
-        newForm.beSigned(lowRank); // Should throw an exception
-        lowRank.signForm(newForm);
-        lowRank.increaseGrade();
-        lowRank.signForm(newForm);
-        newForm.beSigned(lowRank);
+        std::cout << robotomyForm << std::endl;
+
+        // Sign and execute the form
+        signer.signForm(robotomyForm);
+        robotomyForm.beSigned(signer);
+
+        executor.executeForm(robotomyForm);
     }
-    catch (const GradeTooHighException& e)
-    {
-        std::cerr << e.what() << std::endl;
-    }
-    catch (const GradeTooLowException& e)
+    catch (const std::exception& e)
     {
         std::cerr << e.what() << std::endl;
     }
 
     try
     {
-        Form invalidForm("Form B", 0, 100); // Should throw an exception
+        // Test PresidentialPardonForm
+        PresidentialPardonForm pardonForm("Target B");
+        Bureaucrat signer("Grace", 25); // Can sign but not execute
+        Bureaucrat executor("Diana", 5); // Can execute
+
+        std::cout << pardonForm << std::endl;
+
+        // Sign and execute the form
+        signer.signForm(pardonForm);
+        pardonForm.beSigned(signer);
+
+        executor.executeForm(pardonForm);
     }
-    catch (const GradeTooHighException& e)
-    {
-        std::cerr << e.what() << std::endl;
-    }
-    catch (const GradeTooLowException& e)
+    catch (const std::exception& e)
     {
         std::cerr << e.what() << std::endl;
     }
 
     try
     {
-        Form anotherForm("Form C", 75, 50);
-        Bureaucrat signer("Grace", 80);
-        anotherForm.beSigned(signer); // Should throw an exception
+        // Test invalid form creation
+        ShrubberyCreationForm invalidForm("Invalid");
+        Bureaucrat lowRank("Frank", 150); // Too low to sign or execute
+
+        std::cout << invalidForm << std::endl;
+
+        // Attempt to sign and execute with low-rank bureaucrat
+        lowRank.signForm(invalidForm);
+        lowRank.executeForm(invalidForm);
     }
-    catch (const GradeTooHighException& e)
-    {
-        std::cerr << e.what() << std::endl;
-    }
-    catch (const GradeTooLowException& e)
+    catch (const std::exception& e)
     {
         std::cerr << e.what() << std::endl;
     }

@@ -32,7 +32,7 @@ AForm& AForm::operator=(const AForm& copy)
 
 std::ostream& operator<<(std::ostream& out, const AForm& form)
 {
-    out << "Form " << form.getName()
+    out << form.getName()
         << " (To Sign: " << form.getSignGrade()
         << ", To Execute: " << form.getExecuteGrade()
         << (form.isSigned() ? ", Signed)" : ", Not signed)");
@@ -101,5 +101,5 @@ void    AForm::execute(const Bureaucrat& executor) const
         throw AForm::FormNotSignedException();
     if (_signed && executor.getGrade() > _to_execute)
         throw Bureaucrat::GradeTooLowException();
-    beExecuted;
+    beExecuted();
 }
