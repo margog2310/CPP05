@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Bureaucrat.hpp                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mganchev <mganchev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 22:00:54 by mganchev          #+#    #+#             */
-/*   Updated: 2025/04/14 01:50:56 by root             ###   ########.fr       */
+/*   Updated: 2025/04/23 19:44:45 by mganchev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,28 +17,6 @@
 #include <stdexcept>
 
 class Form;
-
-class GradeTooLowException: public std::exception
-{
-    private:
-        std::string _message;
-        
-    public:
-        GradeTooLowException(const std::string& message);
-        ~GradeTooLowException() throw() {}
-        const char* what() const throw();
-} ;
-
-class GradeTooHighException: public std::exception
-{
-    private:
-        std::string _message;
-    public:
-        GradeTooHighException(const std::string& message);
-        ~GradeTooHighException() throw() {}
-        const char* what() const throw();
-} ;
-
 class Bureaucrat
 {
     private:
@@ -51,14 +29,23 @@ class Bureaucrat
         Bureaucrat(const Bureaucrat& copy);
         Bureaucrat& operator=(const Bureaucrat& copy);
         ~Bureaucrat();
-        GradeTooHighException high_e;
-        GradeTooLowException low_e;
         const std::string getName() const;
         size_t getGrade() const;
         friend std::ostream& operator<<(std::ostream& out, const Bureaucrat& bureaucrat);
         void    increaseGrade();
         void    decreaseGrade();
         void    signForm(Form& form);
+        class GradeTooLowException: public std::exception
+        {
+            public:
+                const char* what() const throw();
+        } ;
+
+        class GradeTooHighException: public std::exception
+        {
+            public:
+                const char* what() const throw();
+        } ;
 } ;
 
 

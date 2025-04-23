@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Bureaucrat.hpp                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mganchev <mganchev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 22:00:54 by mganchev          #+#    #+#             */
-/*   Updated: 2025/04/14 02:22:51 by root             ###   ########.fr       */
+/*   Updated: 2025/04/23 21:11:49 by mganchev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,27 +17,6 @@
 #include <stdexcept>
 
 class AForm;
-
-class GradeTooLowException: public std::exception
-{
-    private:
-        std::string _message;
-        
-    public:
-        GradeTooLowException(const std::string& message);
-        ~GradeTooLowException() throw() {}
-        const char* what() const throw();
-} ;
-
-class GradeTooHighException: public std::exception
-{
-    private:
-        std::string _message;
-    public:
-        GradeTooHighException(const std::string& message);
-        ~GradeTooHighException() throw() {}
-        const char* what() const throw();
-} ;
 
 class Bureaucrat
 {
@@ -51,8 +30,17 @@ class Bureaucrat
         Bureaucrat(const Bureaucrat& copy);
         Bureaucrat& operator=(const Bureaucrat& copy);
         ~Bureaucrat();
-        GradeTooHighException high_e;
-        GradeTooLowException low_e;
+        class GradeTooLowException: public std::exception
+        {
+            public:
+                const char* what() const throw();
+        } ;
+
+        class GradeTooHighException: public std::exception
+        {
+            public:
+                const char* what() const throw();
+        } ;
         const std::string getName() const;
         size_t getGrade() const;
         friend std::ostream& operator<<(std::ostream& out, const Bureaucrat& bureaucrat);

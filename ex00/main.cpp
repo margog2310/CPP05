@@ -6,7 +6,7 @@
 /*   By: mganchev <mganchev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 23:48:45 by mganchev          #+#    #+#             */
-/*   Updated: 2025/04/12 23:53:25 by mganchev         ###   ########.fr       */
+/*   Updated: 2025/04/23 19:43:34 by mganchev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,11 @@ int main()
 
         Bureaucrat highBureaucrat("Bob", 0);
     }
-    catch (const GradeTooHighException& e)
+    catch (const Bureaucrat::GradeTooHighException& e)
     {
         std::cerr << e.what();
     }
-    catch (const GradeTooLowException& e)
+    catch (const Bureaucrat::GradeTooLowException& e)
     {
         std::cerr << e.what();
     }
@@ -37,11 +37,11 @@ int main()
     {
         Bureaucrat lowBureaucrat("Charlie", 151);
     }
-    catch (const GradeTooHighException& e)
+    catch (const Bureaucrat::GradeTooHighException& e)
     {
         std::cerr << e.what();
     }
-    catch (const GradeTooLowException& e)
+    catch (const Bureaucrat::GradeTooLowException& e)
     {
         std::cerr << e.what();
     }
@@ -58,8 +58,6 @@ int main()
     catch (const std::exception& e)
     {
         std::cerr << e.what();
-    }
-
-    
+    }   
     return 0;
 }

@@ -27,17 +27,26 @@ class Form
     public:
         Form();
         Form(std::string name, unsigned int to_sign, unsigned int to_execute);
-        Form(const AForm& copy);
+        Form(const Form& copy);
         Form& operator=(const Form& copy);
         ~Form();
-        GradeTooHighException e_high;
-        GradeTooHighException e_low;
         const std::string getName() const;
         friend std::ostream& operator<<(std::ostream& out, const Form& form);
         bool isSigned() const;
         unsigned int getSignGrade() const;
         unsigned int getExecuteGrade() const;
         bool    beSigned(const Bureaucrat& bureaucrat);
+        class GradeTooLowException: public std::exception
+        {
+            public:
+                const char* what() const throw();
+        } ;
+
+        class GradeTooHighException: public std::exception
+        {
+            public:
+                const char* what() const throw();
+        } ;
 } ;
 
 #endif

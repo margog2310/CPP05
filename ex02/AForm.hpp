@@ -29,15 +29,30 @@ class AForm
         AForm(const AForm& copy);
         AForm& operator=(const AForm& copy);
         virtual ~AForm();
-        GradeTooHighException e_high;
-        GradeTooHighException e_low;
-        const std::string getName() const;
+        class GradeTooLowException: public std::exception
+        {
+            public:
+                const char* what() const throw();
+        } ;
+
+        class GradeTooHighException: public std::exception
+        {
+            public:
+                const char* what() const throw();
+        } ;
+        class FormNotSignedException: public std::exception
+        {
+            public:
+                const char* what() const throw ();
+        } ;
         friend std::ostream& operator<<(std::ostream& out, const AForm& AForm);
+        const std::string getName() const;
         bool isSigned() const;
         unsigned int getSignGrade() const;
         unsigned int getExecuteGrade() const;
+        void    setSigned(bool isSigned);
         bool    beSigned(const Bureaucrat& bureaucrat);
-        bool    execute(const Bureaucrat& executor) const;
+        void    execute(const Bureaucrat& executor) const;
         virtual void beExecuted(const Bureaucrat& executor) const = 0;
 } ;
 

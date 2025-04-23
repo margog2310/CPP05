@@ -13,15 +13,15 @@
 #include "AForm.hpp"
 #include "Bureaucrat.hpp"
 
-AForm::AForm(std::string name, unsigned int to_sign, unsigned int to_execute): _name(name), _signed(false), _to_sign(to_sign), _to_execute(to_execute), e_high("Form grade too high."), e_low("Form grade too low.")
+AForm::AForm(std::string name, unsigned int to_sign, unsigned int to_execute): _name(name), _signed(false), _to_sign(to_sign), _to_execute(to_execute)
 {
     if (to_sign < 1 || to_execute < 1)
-        throw e_high;
+        throw AForm::GradeTooHighException();
     else if (to_sign > 150 || to_execute > 150)
-        throw e_low;
+        throw AForm::GradeTooLowException();
 }
 
-AForm::AForm(const AForm& copy): _name(copy._name), _signed(copy._signed), _to_sign(copy._to_sign), _to_execute(copy._to_execute), e_high(copy.e_high), e_low(copy.e_low) {}
+AForm::AForm(const AForm& copy): _name(copy._name), _signed(copy._signed), _to_sign(copy._to_sign), _to_execute(copy._to_execute) {}
 
 AForm& AForm::operator=(const AForm& copy)
 {
@@ -40,6 +40,21 @@ std::ostream& operator<<(std::ostream& out, const AForm& form)
 }
 
 AForm::~AForm() {}
+
+const char* AForm::GradeTooLowException::what() const throw()
+{
+    return "Form grade is too low.";
+}
+
+const char* AForm::GradeTooHighException::what() const throw()
+{
+    return "Form grade is too high.";
+}
+
+const char *AForm::FormNotSignedException::what() const throw()
+{
+    return "Form can't be executed because it hasn't been signed.";
+}
 
 const std::string AForm::getName() const
 {
@@ -61,6 +76,11 @@ unsigned int AForm::getExecuteGrade() const
     return this->_to_execute;
 }
 
+void    AForm::setSigned(bool isSigned)
+{
+    _signed = isSigned;
+}
+
 bool AForm::beSigned(const Bureaucrat& bureaucrat)
 {  
     if (_signed)
@@ -69,17 +89,17 @@ bool AForm::beSigned(const Bureaucrat& bureaucrat)
         return false;
     }
     if (bureaucrat.getGrade() > _to_sign)
-        _signed = false;
+        throw Bureaucrat::GradeTooLowException();
     else
         _signed = true;
     return _signed;
 }
 
-bool    AForm::execute(const Bureaucrat& executor) const
+void    AForm::execute(const Bureaucrat& executor) const
 {
     if (!_signed)
-        std::cout << *this << " hasn't been signed. Please sign before executing." << std::endl;
-    if (_signed && executor.getGrade() < _to_execute)
-        return true;
-    return false;
+        throw AForm::FormNotSignedException();
+    if (_signed && executor.getGrade() > _to_execute)
+        throw Bureaucrat::GradeTooLowException();
+    beExecuted;
 }

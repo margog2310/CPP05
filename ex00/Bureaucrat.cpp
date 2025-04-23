@@ -6,30 +6,21 @@
 /*   By: mganchev <mganchev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 23:02:01 by mganchev          #+#    #+#             */
-/*   Updated: 2025/04/12 23:50:54 by mganchev         ###   ########.fr       */
+/*   Updated: 2025/04/23 20:55:05 by mganchev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Bureaucrat.hpp"
 
-const char* GradeTooLowException::what() const throw()
-{
-    return "Exception: Grade of Bureaucrat is too low.\n";
-}
 
-const char* GradeTooHighException::what() const throw()
-{
-    return "Exception: Grade of Bureaucrat is too high.\n";
-}
-
-Bureaucrat::Bureaucrat(): _name("Unnamed"), _grade(0) {}
+Bureaucrat::Bureaucrat(): _name("Unnamed"), _grade(150) {}
 
 Bureaucrat::Bureaucrat(const std::string name, size_t grade): _name(name)
 {
     if (grade < 1)
-        throw GradeTooHighException();
+        throw Bureaucrat::GradeTooHighException();
     else if (grade > 150)
-        throw GradeTooLowException();
+        throw Bureaucrat::GradeTooLowException();
     else
         _grade = grade;
 }
@@ -37,9 +28,9 @@ Bureaucrat::Bureaucrat(const std::string name, size_t grade): _name(name)
 Bureaucrat::Bureaucrat(const Bureaucrat& copy): _name(copy._name)
 {  
     if (copy._grade < 1)
-        throw GradeTooHighException();
+        throw Bureaucrat::GradeTooHighException();
     else if (copy._grade > 150)
-        throw GradeTooLowException();
+        throw Bureaucrat::GradeTooLowException();
     else
         _grade = copy._grade;
 }
@@ -52,6 +43,16 @@ Bureaucrat& Bureaucrat::operator=(const Bureaucrat& copy)
 }
 
 Bureaucrat::~Bureaucrat() {}
+
+const char* Bureaucrat::GradeTooLowException::what() const throw()
+{
+    return "Exception: Grade of Bureaucrat is too low.";
+}
+
+const char* Bureaucrat::GradeTooHighException::what() const throw()
+{
+    return "Exception: Grade of Bureaucrat is too high.";
+}
 
 std::ostream& operator<<(std::ostream& out, const Bureaucrat& bureaucrat)
 {
@@ -72,7 +73,7 @@ size_t Bureaucrat::getGrade() const
 void    Bureaucrat::increaseGrade()
 {
     if (_grade - 1 < 1)
-        throw GradeTooHighException();
+        throw Bureaucrat::GradeTooHighException();
     else
         this->_grade -= 1;
     
@@ -82,7 +83,7 @@ void    Bureaucrat::increaseGrade()
 void    Bureaucrat::decreaseGrade()
 {
     if (_grade + 1 > 150)
-        throw GradeTooLowException();
+        throw Bureaucrat::GradeTooLowException();
     else
         this->_grade += 1;
 

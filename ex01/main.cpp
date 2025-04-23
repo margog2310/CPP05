@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mganchev <mganchev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 23:48:45 by mganchev          #+#    #+#             */
-/*   Updated: 2025/04/14 00:30:28 by root             ###   ########.fr       */
+/*   Updated: 2025/04/23 21:06:13 by mganchev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,11 @@ int main()
 
         Bureaucrat highBureaucrat("Bob", 0);
     }
-    catch (const GradeTooHighException& e)
+    catch (const Bureaucrat::GradeTooHighException& e)
     {
         std::cerr << e.what() << std::endl;
     }
-    catch (const GradeTooLowException& e)
+    catch (const Bureaucrat::GradeTooLowException& e)
     {
         std::cerr << e.what() << std::endl;
     }
@@ -38,11 +38,11 @@ int main()
     {
         Bureaucrat lowBureaucrat("Charlie", 151);
     }
-    catch (const GradeTooHighException& e)
+    catch (const Bureaucrat::GradeTooHighException& e)
     {
         std::cerr << e.what() << std::endl;
     }
-    catch (const GradeTooLowException& e)
+    catch (const Bureaucrat::GradeTooLowException& e)
     {
         std::cerr << e.what() << std::endl;
     }
@@ -81,39 +81,27 @@ int main()
         lowRank.signForm(newForm);
         newForm.beSigned(lowRank);
     }
-    catch (const GradeTooHighException& e)
+    catch (const std::exception& e)
     {
         std::cerr << e.what() << std::endl;
     }
-    catch (const GradeTooLowException& e)
-    {
-        std::cerr << e.what() << std::endl;
-    }
-
+    
     try
     {
         Form invalidForm("Form B", 0, 100); // Should throw an exception
     }
-    catch (const GradeTooHighException& e)
+    catch (const std::exception& e)
     {
         std::cerr << e.what() << std::endl;
     }
-    catch (const GradeTooLowException& e)
-    {
-        std::cerr << e.what() << std::endl;
-    }
-
+    
     try
     {
         Form anotherForm("Form C", 75, 50);
         Bureaucrat signer("Grace", 80);
         anotherForm.beSigned(signer); // Should throw an exception
     }
-    catch (const GradeTooHighException& e)
-    {
-        std::cerr << e.what() << std::endl;
-    }
-    catch (const GradeTooLowException& e)
+    catch (const std::exception& e)
     {
         std::cerr << e.what() << std::endl;
     }

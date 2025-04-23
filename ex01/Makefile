@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: root <root@student.42.fr>                  +#+  +:+       +#+         #
+#    By: mganchev <mganchev@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/12 22:00:17 by mganchev          #+#    #+#              #
-#    Updated: 2025/04/14 01:41:42 by root             ###   ########.fr        #
+#    Updated: 2025/04/23 20:53:41 by mganchev         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,7 @@ NAME = bureaucrat
 
 SRCS = main.cpp \
 	   Bureaucrat.cpp \
-	   AForm.cpp
+	   Form.cpp
 
 OBJS = $(SRCS:.cpp=.o)
 

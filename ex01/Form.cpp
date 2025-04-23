@@ -13,17 +13,17 @@
 #include "Form.hpp"
 #include "Bureaucrat.hpp"
 
-Form::Form(): _name("Unnamed"), _signed(false), _to_sign(0), _to_execute(0), e_high("Form grade too high."), e_low("Form grade too low") {}
+Form::Form(): _name("Unnamed"), _signed(false), _to_sign(150), _to_execute(150) {}
 
-Form::Form(std::string name, unsigned int to_sign, unsigned int to_execute): _name(name), _signed(false), _to_sign(to_sign), _to_execute(to_execute), e_high("Form grade too high."), e_low("Form grade too low.")
+Form::Form(std::string name, unsigned int to_sign, unsigned int to_execute): _name(name), _signed(false), _to_sign(to_sign), _to_execute(to_execute)
 {
     if (to_sign < 1 || to_execute < 1)
-        throw e_high;
+        throw Form::GradeTooHighException();
     else if (to_sign > 150 || to_execute > 150)
-        throw e_low;
+        throw Form::GradeTooLowException();
 }
 
-Form::Form(const Form& copy): _name(copy._name), _signed(copy._signed), _to_sign(copy._to_sign), _to_execute(copy._to_execute), e_high(copy.e_high), e_low(copy.e_low) {}
+Form::Form(const Form& copy): _name(copy._name), _signed(copy._signed), _to_sign(copy._to_sign), _to_execute(copy._to_execute) {}
 
 Form& Form::operator=(const Form& copy)
 {
@@ -32,9 +32,9 @@ Form& Form::operator=(const Form& copy)
         this->~Form();
         new (this) Form(copy);
         if (_to_sign < 1 || _to_execute < 1)
-            throw e_high;
+            throw Form::GradeTooHighException();
         else if (_to_sign > 150 || _to_execute > 150)
-            throw e_low;
+            throw Form::GradeTooLowException();
     }
     return *this;
 }
@@ -49,6 +49,16 @@ std::ostream& operator<<(std::ostream& out, const Form& form)
 }
 
 Form::~Form() {}
+
+const char* Form::GradeTooLowException::what() const throw()
+{
+    return "Form grade is too low.";
+}
+
+const char* Form::GradeTooHighException::what() const throw()
+{
+    return "Form grade is too high.";
+}
 
 const std::string Form::getName() const
 {
@@ -78,7 +88,7 @@ bool Form::beSigned(const Bureaucrat& bureaucrat)
         return false;
     }
     if (bureaucrat.getGrade() > _to_sign)
-        _signed = false;
+        throw Bureaucrat::GradeTooLowException();
     else
         _signed = true;
     return _signed;
