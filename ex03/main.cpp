@@ -14,7 +14,9 @@
 #include "ShrubberyCreationForm.hpp"
 #include "RobotomyRequestForm.hpp"
 #include "PresidentialPardonForm.hpp"
+#include "Intern.hpp"
 #include <iostream>
+#include <string>
 
 int main()
 {
@@ -95,6 +97,44 @@ int main()
         // Attempt to sign and execute with low-rank bureaucrat
         lowRank.signForm(invalidForm);
         lowRank.executeForm(invalidForm);
+    }
+    catch (const std::exception& e)
+    {
+        std::cerr << e.what() << std::endl;
+    }
+try
+    {
+        // Test Intern
+        Intern intern;
+        std::string formName;
+        std::string target;
+
+        // Display available form types
+        std::cout << "Available form types:\n";
+        std::cout << "1. Shrubbery Creation\n";
+        std::cout << "2. Robotomy Request\n";
+        std::cout << "3. Presidential Pardon\n";
+
+        // Prompt user for input
+        std::cout << "Enter the form type: ";
+        std::getline(std::cin, formName);
+        std::cout << "Enter the target: ";
+        std::getline(std::cin, target);
+
+        // Attempt to create the form
+        AForm* form = intern.makeForm(formName, target);
+        if (form)
+        {
+            std::cout << *form << std::endl;
+
+            // Test signing and executing the form
+            Bureaucrat executor("Executor", 1); // High enough rank to sign and execute
+            executor.signForm(*form);
+            form->beSigned(executor);
+            executor.executeForm(*form);
+
+            delete form; // Clean up dynamically allocated memory
+        }
     }
     catch (const std::exception& e)
     {
