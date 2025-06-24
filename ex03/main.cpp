@@ -22,124 +22,71 @@ int main()
 {
     try
     {
-        // Test ShrubberyCreationForm
-        ShrubberyCreationForm shrubberyForm("Garden");
-        Bureaucrat lowRank("Frank", 150); // Too low to sign or execute
-        Bureaucrat midRank("Alice", 140); // Can sign but not execute
-        Bureaucrat highRank("Bob", 1);    // Can sign and execute
-
-        std::cout << shrubberyForm << std::endl;
-
-        // Attempt to sign and execute with low-rank bureaucrat
-        lowRank.signForm(shrubberyForm);
-        lowRank.executeForm(shrubberyForm);
-
-        // Sign with mid-rank bureaucrat
-        midRank.signForm(shrubberyForm);
-        shrubberyForm.beSigned(midRank);
-
-        // Execute with high-rank bureaucrat
-        highRank.executeForm(shrubberyForm);
-    }
-    catch (const std::exception& e)
-    {
-        std::cerr << e.what() << std::endl;
-    }
-
-    try
-    {
-        // Test RobotomyRequestForm
-        RobotomyRequestForm robotomyForm("Target A");
-        Bureaucrat signer("Eve", 72); // Can sign but not execute
-        Bureaucrat executor("Charlie", 45); // Can execute
-
-        std::cout << robotomyForm << std::endl;
-
-        // Sign and execute the form
-        signer.signForm(robotomyForm);
-        robotomyForm.beSigned(signer);
-
-        executor.executeForm(robotomyForm);
-    }
-    catch (const std::exception& e)
-    {
-        std::cerr << e.what() << std::endl;
-    }
-
-    try
-    {
-        // Test PresidentialPardonForm
-        PresidentialPardonForm pardonForm("Target B");
-        Bureaucrat signer("Grace", 25); // Can sign but not execute
-        Bureaucrat executor("Diana", 5); // Can execute
-
-        std::cout << pardonForm << std::endl;
-
-        // Sign and execute the form
-        signer.signForm(pardonForm);
-        pardonForm.beSigned(signer);
-
-        executor.executeForm(pardonForm);
-    }
-    catch (const std::exception& e)
-    {
-        std::cerr << e.what() << std::endl;
-    }
-
-    try
-    {
-        // Test invalid form creation
-        ShrubberyCreationForm invalidForm("Invalid");
-        Bureaucrat lowRank("Frank", 150); // Too low to sign or execute
-
-        std::cout << invalidForm << std::endl;
-
-        // Attempt to sign and execute with low-rank bureaucrat
-        lowRank.signForm(invalidForm);
-        lowRank.executeForm(invalidForm);
-    }
-    catch (const std::exception& e)
-    {
-        std::cerr << e.what() << std::endl;
-    }
-try
-    {
         // Test Intern
+        std::cout << "Creating an Intern that we're about to exploit..." << std::endl;
         Intern intern;
-        std::string formName;
-        std::string target;
 
-        // Display available form types
-        std::cout << "Available form types:\n";
-        std::cout << "1. Shrubbery Creation\n";
-        std::cout << "2. Robotomy Request\n";
-        std::cout << "3. Presidential Pardon\n";
-
-        // Prompt user for input
-        std::cout << "Enter the form type: ";
-        std::getline(std::cin, formName);
-        std::cout << "Enter the target: ";
-        std::getline(std::cin, target);
-
+        std::cout << "\nLet's see our Intern attempt to create some Forms..." << std::endl;
         // Attempt to create the form
-        AForm* form = intern.makeForm(formName, target);
-        if (form)
+        AForm* shrubForm = intern.makeForm("Shrubbery Creation", "Garden");
+        AForm* robotForm = intern.makeForm("Robotomy Request", "Target A");
+        AForm* presForm = intern.makeForm("Presidential Pardon", "Target B");
+        
+        std::cout << "\nNow let's see if our Intern is competent enough to create all these forms..." << std::endl;
+        if (shrubForm)
         {
-            std::cout << *form << std::endl;
+            std::cout << std::endl << *shrubForm << std::endl;
 
             // Test signing and executing the form
+            std::cout << "\nGreat our Shrubbery Creation Form exists, let's create a Bureaucrat to sign and execute it!" << std::endl;
             Bureaucrat executor("Executor", 1); // High enough rank to sign and execute
-            executor.signForm(*form);
-            form->beSigned(executor);
-            executor.executeForm(*form);
+            std::cout << executor << std::endl;
+            executor.signForm(*shrubForm);
+            shrubForm->beSigned(executor);
+            executor.executeForm(*shrubForm);
 
-            delete form; // Clean up dynamically allocated memory
+            delete shrubForm; // Clean up dynamically allocated memory
         }
+
+        if (robotForm)
+        {
+            std::cout << std::endl << *robotForm << std::endl;
+
+            // Test signing and executing the form
+            std::cout << "\nGreat our Robotomy Request Form exists, let's create a Bureaucrat to sign and execute it!" << std::endl;
+            Bureaucrat executor("Executor", 1); // High enough rank to sign and execute
+            std::cout << executor << std::endl;
+            executor.signForm(*robotForm);
+            robotForm->beSigned(executor);
+            executor.executeForm(*robotForm);
+
+            delete robotForm; // Clean up dynamically allocated memory
+        }
+
+        if (presForm)
+        {
+            std::cout << std::endl << *presForm << std::endl;
+            
+            // Test signing and executing the form
+            std::cout << "\nGreat our Presidential Pardon Form exists, let's create a Bureaucrat to sign and execute it!" << std::endl;
+            Bureaucrat executor("Executor", 1); // High enough rank to sign and execute
+            std::cout << executor << std::endl;
+            executor.signForm(*presForm);
+            presForm->beSigned(executor);
+            executor.executeForm(*presForm);
+            
+            delete presForm; // Clean up dynamically allocated memory
+        }
+
+        std::cout << "\nFinally let's see what happens if we tell out Intern to create an invalid Form:" << std::endl;
+        AForm*  invalid = intern.makeForm("Invalid", "Target C");
+        
+        delete invalid;
     }
     catch (const std::exception& e)
     {
         std::cerr << e.what() << std::endl;
     }
-
+    
     return 0;
 }

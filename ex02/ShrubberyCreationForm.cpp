@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ShrubberyCreationForm.cpp                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mganchev <mganchev@student.42.fr>          +#+  +:+       +#+        */
+/*   By: margo <margo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 21:38:17 by mganchev          #+#    #+#             */
-/*   Updated: 2025/04/23 22:34:37 by mganchev         ###   ########.fr       */
+/*   Updated: 2025/06/24 17:07:30 by margo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,11 @@ ShrubberyCreationForm& ShrubberyCreationForm::operator=(const ShrubberyCreationF
 }
 
 ShrubberyCreationForm::~ShrubberyCreationForm() {}
+
+std::string ShrubberyCreationForm::getTarget() const
+{
+    return _target;
+}
 
 const char* ShrubberyCreationForm::FileErrorException::what() const throw()
 {

@@ -21,23 +21,44 @@ int main()
     try
     {
         // Test ShrubberyCreationForm
+        std::cout << "Creating a Shrubbery Creation Form..." << std::endl;
+
         ShrubberyCreationForm shrubberyForm("Garden");
+        std::cout << shrubberyForm << std::endl;
+
+        std::cout << "\nCreating some Bureaucrats that may or may not be able to sign/execute Form..." << std::endl;
         Bureaucrat lowRank("Frank", 150); // Too low to sign or execute
         Bureaucrat midRank("Alice", 140); // Can sign but not execute
         Bureaucrat highRank("Bob", 1);    // Can sign and execute
-
-        std::cout << shrubberyForm << std::endl;
+        std::cout << lowRank << std::endl << midRank << std::endl << highRank << std::endl;
 
         // Attempt to sign and execute with low-rank bureaucrat
+        std::cout << "\nAttempting to sign/execute with a Bureaucrat that can't do either..." << std::endl;
         lowRank.signForm(shrubberyForm);
         lowRank.executeForm(shrubberyForm);
 
         // Sign with mid-rank bureaucrat
+        std::cout << "\nAttempting to sign/execute with a Bureaucrat that can sign but can't execute..." << std::endl;
         midRank.signForm(shrubberyForm);
-        shrubberyForm.beSigned(midRank);
+        midRank.executeForm(shrubberyForm);
 
         // Execute with high-rank bureaucrat
+        std::cout << "\nAttempting to sign/execute with a Bureaucrat that can both sign and execute..." << std::endl;
+        highRank.signForm(shrubberyForm);
         highRank.executeForm(shrubberyForm);
+
+        std::cout << "\nShowing that Shrubbery Creation Form was executed successfully:" << std::endl;
+        std::string fileName = "./" + shrubberyForm.getTarget() + "_shrubbery";
+        std::ifstream file(fileName.c_str());
+        if (!file.is_open())
+            std::cerr << "Error: File doesn't exist or can't be opened." << std::endl;
+        else
+        {
+            std::string line;
+            while(std::getline(file, line))
+                std::cout << line << std::endl;
+        }
+        file.close();
     }
     catch (const std::exception& e)
     {
@@ -47,16 +68,23 @@ int main()
     try
     {
         // Test RobotomyRequestForm
-        RobotomyRequestForm robotomyForm("Target A");
-        Bureaucrat signer("Eve", 72); // Can sign but not execute
-        Bureaucrat executor("Charlie", 45); // Can execute
+        std::cout << "\nCreating a Robotomy Request Form..." << std::endl;
 
+        RobotomyRequestForm robotomyForm("Target A");
         std::cout << robotomyForm << std::endl;
 
-        // Sign and execute the form
-        signer.signForm(robotomyForm);
-        robotomyForm.beSigned(signer);
+        std::cout << "\nCreating some Bureaucrats that may or may not be able to sign/execute Form..." << std::endl;
+        Bureaucrat signer("Eve", 72); // Can sign but not execute
+        Bureaucrat executor("Charlie", 45); // Can execute
+        std::cout << signer << std::endl << executor << std::endl;
 
+        // Sign and execute the form
+        std::cout << "\nAttempting to sign/execute with a Bureaucrat that can sign but not execute..." << std::endl;
+        signer.signForm(robotomyForm);
+        signer.executeForm(robotomyForm);
+
+        std::cout << "\nAttempting to sign/execute with a Bureaucrat that can both sign and execute..." << std::endl;
+        executor.signForm(robotomyForm);
         executor.executeForm(robotomyForm);
     }
     catch (const std::exception& e)
@@ -67,34 +95,23 @@ int main()
     try
     {
         // Test PresidentialPardonForm
+        std::cout << "\nCreating a Presidential Pardon Form..." << std::endl;
         PresidentialPardonForm pardonForm("Target B");
-        Bureaucrat signer("Grace", 25); // Can sign but not execute
-        Bureaucrat executor("Diana", 5); // Can execute
-
         std::cout << pardonForm << std::endl;
 
+        std::cout << "\nCreating some Bureaucrats that may or may not be able to sign/execute Form..." << std::endl;
+        Bureaucrat signer("Grace", 25); // Can sign but not execute
+        Bureaucrat executor("Diana", 5); // Can execute
+        std::cout << signer << std::endl << executor << std::endl;
+
         // Sign and execute the form
+        std::cout << "\nAttempting to sign/execute with a Bureaucrat that can sign but not execute..." << std::endl;
         signer.signForm(pardonForm);
-        pardonForm.beSigned(signer);
+        signer.executeForm(pardonForm);
 
+        std::cout << "\nAttempting to sign/execute with a Bureaucrat that can both sign and execute..." << std::endl;
+        executor.signForm(pardonForm);
         executor.executeForm(pardonForm);
-    }
-    catch (const std::exception& e)
-    {
-        std::cerr << e.what() << std::endl;
-    }
-
-    try
-    {
-        // Test invalid form creation
-        ShrubberyCreationForm invalidForm("Invalid");
-        Bureaucrat lowRank("Frank", 150); // Too low to sign or execute
-
-        std::cout << invalidForm << std::endl;
-
-        // Attempt to sign and execute with low-rank bureaucrat
-        lowRank.signForm(invalidForm);
-        lowRank.executeForm(invalidForm);
     }
     catch (const std::exception& e)
     {

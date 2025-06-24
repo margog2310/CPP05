@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Bureaucrat.hpp                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mganchev <mganchev@student.42.fr>          +#+  +:+       +#+        */
+/*   By: margo <margo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 22:00:54 by mganchev          #+#    #+#             */
-/*   Updated: 2025/04/23 19:37:14 by mganchev         ###   ########.fr       */
+/*   Updated: 2025/06/12 17:40:04 by margo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,10 @@ class Bureaucrat
         Bureaucrat(const Bureaucrat& copy);
         Bureaucrat& operator=(const Bureaucrat& copy);
         ~Bureaucrat();
+        
         const std::string getName() const;
         size_t getGrade() const;
+        
         void    increaseGrade();
         void    decreaseGrade();
         class GradeTooLowException: public std::exception

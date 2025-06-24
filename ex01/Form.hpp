@@ -30,8 +30,8 @@ class Form
         Form(const Form& copy);
         Form& operator=(const Form& copy);
         ~Form();
+
         const std::string getName() const;
-        friend std::ostream& operator<<(std::ostream& out, const Form& form);
         bool isSigned() const;
         unsigned int getSignGrade() const;
         unsigned int getExecuteGrade() const;
@@ -48,5 +48,7 @@ class Form
                 const char* what() const throw();
         } ;
 } ;
+
+std::ostream& operator<<(std::ostream& out, const Form& form);
 
 #endif

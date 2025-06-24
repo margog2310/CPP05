@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Intern.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mganchev <mganchev@student.42.fr>          +#+  +:+       +#+        */
+/*   By: margo <margo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 23:21:41 by mganchev          #+#    #+#             */
-/*   Updated: 2025/04/24 17:58:08 by mganchev         ###   ########.fr       */
+/*   Updated: 2025/06/24 19:27:42 by margo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,47 +28,35 @@ Intern& Intern::operator=(const Intern& copy)
 
 Intern::~Intern() {}
 
-const char* Intern::NoSuchFormException::what() const throw()
+AForm*  Intern::makeShrubbery(const std::string target)
 {
-    return "Unknown form type.";
+    return new ShrubberyCreationForm(target);
+}
+
+AForm*  Intern::makeRobotomy(const std::string target)
+{
+    return new RobotomyRequestForm(target);
+}
+
+AForm*  Intern::makePardon(const std::string target)
+{
+    return new PresidentialPardonForm(target);
 }
 
 AForm* Intern::makeForm(std::string name, std::string target)
 {
-    // try switch statement with std::map
-    AForm* newForm = NULL;
+    std::string forms[] = {"Shrubbery Creation", "Robotomy Request", "Presidential Pardon"};
+    AForm *(Intern::*functions[])(const std::string target) = {&Intern::makeShrubbery, &Intern::makeRobotomy, &Intern::makePardon};
     
-    std::map<std::string, int> forms;
-
-    forms["Shrubbery Creation"] = 1;
-    forms["shrubbery creation"] = 1;
-    forms["Robotomy Request"] = 2;
-    forms["robotomy request"] = 2;
-    forms["Presidential Pardon"] = 3;
-    forms["presidential pardon"] = 3;
-    
-    try
-    {        
-        switch (forms.at(name))
-        {
-            case (1):
-                newForm = new ShrubberyCreationForm(target);
-                break ;
-            case (2):
-                newForm = new RobotomyRequestForm(target);
-                break ;
-            case (3):
-                newForm = new PresidentialPardonForm(target);
-                break ;
-            default:
-                throw Intern::NoSuchFormException();
-        }
-    }
-    catch(const std::exception& e)
+    for (int i = 0; i < 3; i++)
     {
-        std::cerr << "Form coulnd't be created because " << e.what() << std::endl;
+        if (name == forms[i])
+        {
+            std::cout << "Intern creates " << name << std::endl;
+            return ((this->*functions[i])(target));
+        }    
     }
-    if (newForm)
-        std::cout << "Intern creates " << newForm->getName() << std::endl;
-    return (newForm);
+    
+    std::cout << "Intern can't create a " << name << " Form." << std::endl;
+    return (NULL);
 }

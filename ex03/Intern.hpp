@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Intern.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mganchev <mganchev@student.42.fr>          +#+  +:+       +#+        */
+/*   By: margo <margo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 23:17:49 by mganchev          #+#    #+#             */
-/*   Updated: 2025/04/24 17:49:55 by mganchev         ###   ########.fr       */
+/*   Updated: 2025/06/24 19:27:48 by margo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,11 @@ class Intern
         Intern(const Intern& copy);
         Intern& operator=(const Intern& copy);
         ~Intern();
+
+        AForm* makeShrubbery(const std::string target);
+        AForm* makeRobotomy(const std::string target);
+        AForm* makePardon(const std::string target);
         AForm* makeForm(std::string name, std::string target);
-        class NoSuchFormException: public std::exception
-        {
-            public:
-                const char* what() const throw();
-        } ;
 } ;
 
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ShrubberyCreationForm.hpp                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mganchev <mganchev@student.42.fr>          +#+  +:+       +#+        */
+/*   By: margo <margo@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 21:27:41 by mganchev          #+#    #+#             */
-/*   Updated: 2025/04/23 22:33:59 by mganchev         ###   ########.fr       */
+/*   Updated: 2025/06/24 17:06:58 by margo            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ class ShrubberyCreationForm: public AForm
         ShrubberyCreationForm(const ShrubberyCreationForm& copy);
         ShrubberyCreationForm& operator=(const ShrubberyCreationForm& copy);
         ~ShrubberyCreationForm();
+        
+        std::string getTarget() const;
         class   FileErrorException: public std::exception
         {
             public:
