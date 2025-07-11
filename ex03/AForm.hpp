@@ -46,7 +46,6 @@ class AForm
             public:
                 const char* what() const throw ();
         } ;
-        friend std::ostream& operator<<(std::ostream& out, const AForm& AForm);
         const std::string getName() const;
         bool isSigned() const;
         unsigned int getSignGrade() const;
@@ -55,5 +54,7 @@ class AForm
         bool    beSigned(const Bureaucrat& bureaucrat);
         void    execute(const Bureaucrat& executor) const;
 } ;
+
+std::ostream& operator<<(std::ostream& out, const AForm& AForm);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: mganchev <mganchev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/12 22:00:54 by mganchev          #+#    #+#             */
-/*   Updated: 2025/04/23 19:44:45 by mganchev         ###   ########.fr       */
+/*   Updated: 2025/07/11 19:02:49 by mganchev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ class Bureaucrat
         ~Bureaucrat();
         const std::string getName() const;
         size_t getGrade() const;
-        friend std::ostream& operator<<(std::ostream& out, const Bureaucrat& bureaucrat);
         void    increaseGrade();
         void    decreaseGrade();
         void    signForm(Form& form);
@@ -48,5 +47,6 @@ class Bureaucrat
         } ;
 } ;
 
+std::ostream& operator<<(std::ostream& out, const Bureaucrat& bureaucrat);
 
 #endif
